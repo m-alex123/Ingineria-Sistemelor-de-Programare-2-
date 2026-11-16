@@ -1,7 +1,12 @@
 package com.parking.parkinglot.entities;
 
-import jakarta.persistence.*;
-
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -11,53 +16,58 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
+
     private Long id;
+
+    @Column(name = "username")
+
+    private String username;
     private String email;
     private String password;
 
-    public Long getId() {
-        return id;
+    @OneToMany(mappedBy = "owner", orphanRemoval = true)
+
+    private Set<Car> cars = new LinkedHashSet();
+
+    public User() {}
+
+    public String getUsername() {
+        return this.username;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {
-        return email;
+        return this.email;
     }
 
     public void setEmail(String email) {
         this.email = email;
     }
 
-    @OneToMany(mappedBy = "owner", orphanRemoval = true)
-    private Set<Car> cars = new LinkedHashSet<>();
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    @Column(name = "username")
-    private String username;
-
     public Set<Car> getCars() {
-        return cars;
+        return this.cars;
     }
 
     public void setCars(Set<Car> cars) {
         this.cars = cars;
     }
 
-    public String getUsername() {
-        return username;
+    public String getPassword() {
+        return this.password;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
